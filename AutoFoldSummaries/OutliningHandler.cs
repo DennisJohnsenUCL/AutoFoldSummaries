@@ -1,13 +1,13 @@
-﻿using Microsoft.VisualStudio.Editor;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Threading;
+using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Outlining;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Microsoft.VisualStudio.Utilities;
-using System;
-using System.ComponentModel.Composition;
-using System.Threading;
 
 namespace AutoFoldSummaries
 {
@@ -115,8 +115,6 @@ namespace AutoFoldSummaries
                 var snapshot = _view.TextSnapshot;
                 var fullSpan = new SnapshotSpan(snapshot, 0, snapshot.Length);
 
-                bool didCollapse = false;
-
                 foreach (var region in outlining.GetAllRegions(fullSpan))
                 {
                     // Skip already-collapsed regions — avoids redundant work
@@ -129,12 +127,10 @@ namespace AutoFoldSummaries
                         text.Contains("<summary>"))
                     {
                         outlining.TryCollapse(region);
-                        didCollapse = true;
                     }
                 }
 
-                if (didCollapse)
-                    Interlocked.Exchange(ref _collapsed, 1);
+                Interlocked.Exchange(ref _collapsed, 1);
             }
         }
     }
