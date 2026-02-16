@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
@@ -92,18 +93,24 @@ namespace AutoFoldSummaries
                 if (Interlocked.CompareExchange(ref _pendingDebounce, 1, 0) != 0)
                     return;
 
-                ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+                _ = Task.Run(async () =>
                 {
-                    // Yield + small delay to avoid running during layout
-                    await System.Threading.Tasks.Task.Delay(DebounceMs);
-                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                    try
+                    {
+                        await Task.Delay(DebounceMs);
+                        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-                    Interlocked.Exchange(ref _pendingDebounce, 0);
+                        Interlocked.Exchange(ref _pendingDebounce, 0);
 
-                    if (_view.IsClosed)
-                        return;
+                        if (_view.IsClosed)
+                            return;
 
-                    CollapseSummaries();
+                        CollapseSummaries();
+                    }
+                    catch (Exception ex)
+                    {
+                        ActivityLog.LogError("AutoFoldSummaries", ex.ToString());
+                    }
                 });
             }
 
