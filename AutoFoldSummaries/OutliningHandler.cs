@@ -1,14 +1,14 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.Editor;
+﻿using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Outlining;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Microsoft.VisualStudio.Utilities;
+using System;
+using System.ComponentModel.Composition;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AutoFoldSummaries
 {
@@ -31,47 +31,48 @@ namespace AutoFoldSummaries
             if (textView == null)
                 return;
 
-            // Prevent attaching twice to the same view
             if (textView.Properties.ContainsProperty(typeof(OutliningHandler)))
                 return;
             textView.Properties.AddProperty(typeof(OutliningHandler), true);
 
             var collapser = new SummaryCollapser(OutliningService, textView);
 
-            // Collapse once when the view first gets focus
             textView.GotAggregateFocus += collapser.OnGotFocus;
 
-            // Collapse when outlining regions are rebuilt (e.g. file first opened)
             var outlining = OutliningService.GetOutliningManager(textView);
             if (outlining != null)
             {
                 outlining.RegionsChanged += collapser.OnRegionsChanged;
             }
 
-            // Clean up when the view closes
             textView.Closed += (s, e) =>
             {
+                collapser.Cancel();
                 textView.GotAggregateFocus -= collapser.OnGotFocus;
                 if (outlining != null)
                     outlining.RegionsChanged -= collapser.OnRegionsChanged;
             };
         }
 
-        /// <summary>
-        /// Encapsulates debouncing and collapse logic for a single text view.
-        /// </summary>
         private sealed class SummaryCollapser
         {
             private readonly IOutliningManagerService _outliningService;
             private readonly ITextView _view;
-            private int _collapsed;           // 1 after first successful collapse
-            private int _pendingDebounce;     // guards against overlapping timers
-            private const int DebounceMs = 200;
+            private int _collapsed;
+            private CancellationTokenSource _cts = new CancellationTokenSource();
+
+            private const int RetryDelayMs = 100;
+            private const int MaxRetries = 30;
 
             public SummaryCollapser(IOutliningManagerService svc, ITextView view)
             {
                 _outliningService = svc;
                 _view = view;
+            }
+
+            public void Cancel()
+            {
+                _cts.Cancel();
             }
 
             public void OnGotFocus(object sender, EventArgs e)
@@ -81,32 +82,43 @@ namespace AutoFoldSummaries
 
             public void OnRegionsChanged(object sender, RegionsChangedEventArgs e)
             {
-                // Only react to RegionsChanged until the initial collapse succeeds.
-                // After that, edits shouldn't re-collapse regions the user opened.
                 if (_collapsed == 0)
                     ScheduleCollapse();
             }
 
             private void ScheduleCollapse()
             {
-                // Simple debounce: skip if one is already pending
-                if (Interlocked.CompareExchange(ref _pendingDebounce, 1, 0) != 0)
-                    return;
+                var oldCts = Interlocked.Exchange(ref _cts, new CancellationTokenSource());
+                oldCts.Cancel();
+
+                var token = _cts.Token;
 
                 _ = Task.Run(async () =>
                 {
                     try
                     {
-                        await Task.Delay(DebounceMs);
-                        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(token);
+                        if (_view.IsClosed) return;
 
-                        Interlocked.Exchange(ref _pendingDebounce, 0);
+                        var earlySnapshot = _view.TextSnapshot;
+                        if (!earlySnapshot.GetText().Contains("<summary>")) return;
 
-                        if (_view.IsClosed)
-                            return;
+                        for (int attempt = 0; attempt < MaxRetries; attempt++)
+                        {
+                            token.ThrowIfCancellationRequested();
 
-                        CollapseSummaries();
+                            await Task.Delay(RetryDelayMs, token);
+                            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(token);
+
+                            if (_view.IsClosed)
+                                return;
+
+                            bool foundAny = CollapseSummaries();
+
+                            if (foundAny) return;
+                        }
                     }
+                    catch (OperationCanceledException) { }
                     catch (Exception ex)
                     {
                         ActivityLog.LogError("AutoFoldSummaries", ex.ToString());
@@ -114,30 +126,32 @@ namespace AutoFoldSummaries
                 });
             }
 
-            private void CollapseSummaries()
+            private bool CollapseSummaries()
             {
                 var outlining = _outliningService.GetOutliningManager(_view);
-                if (outlining == null) return;
+                if (outlining == null) return false;
 
                 var snapshot = _view.TextSnapshot;
                 var fullSpan = new SnapshotSpan(snapshot, 0, snapshot.Length);
 
+                bool foundAnySummary = false;
+
                 foreach (var region in outlining.GetAllRegions(fullSpan))
                 {
-                    // Skip already-collapsed regions — avoids redundant work
-                    if (region.IsCollapsed)
-                        continue;
-
                     var text = region.Extent.GetText(snapshot);
 
                     if (text.TrimStart().StartsWith("///") &&
                         text.Contains("<summary>"))
                     {
-                        outlining.TryCollapse(region);
+                        foundAnySummary = true;
+
+                        if (!region.IsCollapsed) outlining.TryCollapse(region);
                     }
                 }
 
-                Interlocked.Exchange(ref _collapsed, 1);
+                if (foundAnySummary) Interlocked.Exchange(ref _collapsed, 1);
+
+                return foundAnySummary;
             }
         }
     }
