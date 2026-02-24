@@ -48,6 +48,7 @@
     <Compile Include="OutliningHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutoFoldSummariesPackage.cs" />
+    <Compile Include="SummaryCollapser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source.extension.vsixmanifest">
