@@ -54,7 +54,6 @@
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidAutoFoldSummariesPackageCmdSet" id="ToggleCommandId" priority="0x0100" type="Button">
         <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesMenuGroup" />
-        <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
           <ButtonText>AutoFoldSummaries</ButtonText>
           <CanonicalName>AutoFoldSummaries.ToggleCommand</CanonicalName>

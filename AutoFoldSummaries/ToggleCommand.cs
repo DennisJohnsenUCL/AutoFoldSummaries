@@ -41,8 +41,18 @@ namespace AutoFoldSummaries
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
-            var menuItem = new MenuCommand(Execute, menuCommandID);
+            var menuItem = new OleMenuCommand(Execute, menuCommandID);
+            menuItem.BeforeQueryStatus += OnBeforeQueryStatus;
             commandService.AddCommand(menuItem);
+        }
+
+        private void OnBeforeQueryStatus(object sender, EventArgs e)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (sender is OleMenuCommand command)
+            {
+                command.Checked = Settings.Default.Enabled;
+            }
         }
 
         /// <summary>
