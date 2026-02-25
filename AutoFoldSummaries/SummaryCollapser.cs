@@ -33,13 +33,14 @@ namespace AutoFoldSummaries
 
         public void OnGotFocus(object sender, EventArgs e)
         {
+            if (!Settings.Default.Enabled) return;
             ScheduleCollapse();
         }
 
         public void OnRegionsChanged(object sender, RegionsChangedEventArgs e)
         {
-            if (_collapsed == 0)
-                ScheduleCollapse();
+            if (!Settings.Default.Enabled) return;
+            if (_collapsed == 0) ScheduleCollapse();
         }
 
         private void ScheduleCollapse()
