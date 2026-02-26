@@ -1,9 +1,11 @@
-﻿using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Task = System.Threading.Tasks.Task;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Settings;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Settings;
 
 namespace AutoFoldSummaries
 {
@@ -36,6 +38,9 @@ namespace AutoFoldSummaries
         /// </summary>
         public const string PackageGuidString = "f38d0f2b-e64b-46fb-a126-40bce5113a82";
 
+        private WritableSettingsStore _settingsStore;
+        private const string _settingsCollection = "AutoFoldSummaries";
+
         #region Package Members
 
         /// <summary>
@@ -50,7 +55,29 @@ namespace AutoFoldSummaries
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            var settingsManager = new ShellSettingsManager(this);
+            _settingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);
+
+            if (!_settingsStore.CollectionExists(_settingsCollection))
+            {
+                _settingsStore.CreateCollection(_settingsCollection);
+                _settingsStore.SetBoolean(_settingsCollection, "Enabled", Settings.Default.Enabled);
+            }
+
+            Settings.Default.Enabled = _settingsStore.GetBoolean(_settingsCollection, "Enabled", Settings.Default.Enabled);
+
             await ToggleCommand.InitializeAsync(this);
+        }
+
+        public void SaveSetting(string key, object value)
+        {
+            switch (value)
+            {
+                case bool b: _settingsStore.SetBoolean(_settingsCollection, key, b); break;
+                default:
+                    break;
+            }
         }
 
         #endregion
