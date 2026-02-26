@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +13,6 @@ namespace AutoFoldSummaries
     {
         private readonly IOutliningManagerService _outliningService;
         private readonly ITextView _view;
-        private int _collapsed;
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
         private const int RetryDelayMs = 100;
@@ -35,12 +33,6 @@ namespace AutoFoldSummaries
         {
             if (!Settings.Default.Enabled) return;
             ScheduleCollapse();
-        }
-
-        public void OnRegionsChanged(object sender, RegionsChangedEventArgs e)
-        {
-            if (!Settings.Default.Enabled) return;
-            if (_collapsed == 0) ScheduleCollapse();
         }
 
         private void ScheduleCollapse()
@@ -108,9 +100,6 @@ namespace AutoFoldSummaries
             var snapshot = _view.TextSnapshot;
             var fullSpan = new SnapshotSpan(snapshot, 0, snapshot.Length);
 
-            bool foundAnySummary = false;
-
-            Debug.WriteLine(outlining.GetAllRegions(fullSpan).Count());
             foreach (var region in outlining.GetAllRegions(fullSpan))
             {
                 var text = region.Extent.GetText(snapshot);
@@ -118,13 +107,9 @@ namespace AutoFoldSummaries
                 if (text.TrimStart().StartsWith("///") &&
                     text.Contains("<summary>"))
                 {
-                    foundAnySummary = true;
-
                     if (!region.IsCollapsed) outlining.TryCollapse(region);
                 }
             }
-
-            if (foundAnySummary) Interlocked.Exchange(ref _collapsed, 1);
         }
     }
 }

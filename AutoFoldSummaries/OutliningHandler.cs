@@ -35,18 +35,10 @@ namespace AutoFoldSummaries
 
             textView.GotAggregateFocus += collapser.OnGotFocus;
 
-            var outlining = OutliningService.GetOutliningManager(textView);
-            if (outlining != null)
-            {
-                outlining.RegionsChanged += collapser.OnRegionsChanged;
-            }
-
             textView.Closed += (s, e) =>
             {
                 collapser.Cancel();
                 textView.GotAggregateFocus -= collapser.OnGotFocus;
-                if (outlining != null)
-                    outlining.RegionsChanged -= collapser.OnRegionsChanged;
             };
         }
     }
