@@ -26,12 +26,12 @@ namespace AutoFoldSummaries {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool Enabled {
+        public bool CollapseSummaries {
             get {
-                return ((bool)(this["Enabled"]));
+                return ((bool)(this["CollapseSummaries"]));
             }
             set {
-                this["Enabled"] = value;
+                this["CollapseSummaries"] = value;
             }
         }
     }

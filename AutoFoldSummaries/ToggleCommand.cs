@@ -47,7 +47,7 @@ namespace AutoFoldSummaries
             ThreadHelper.ThrowIfNotOnUIThread();
             if (sender is OleMenuCommand command)
             {
-                command.Checked = Settings.Default.Enabled;
+                command.Checked = Settings.Default.CollapseSummaries;
             }
         }
 
@@ -96,9 +96,9 @@ namespace AutoFoldSummaries
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            Settings.Default.Enabled = !Settings.Default.Enabled;
+            Settings.Default.CollapseSummaries = !Settings.Default.CollapseSummaries;
 
-            ((AutoFoldSummariesPackage)_package).SaveSetting("Enabled", Settings.Default.Enabled);
+            ((AutoFoldSummariesPackage)_package).SaveSetting("CollapseSummaries", Settings.Default.CollapseSummaries);
         }
     }
 }

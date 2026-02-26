@@ -62,10 +62,10 @@ namespace AutoFoldSummaries
             if (!_settingsStore.CollectionExists(_settingsCollection))
             {
                 _settingsStore.CreateCollection(_settingsCollection);
-                _settingsStore.SetBoolean(_settingsCollection, "Enabled", Settings.Default.Enabled);
+                _settingsStore.SetBoolean(_settingsCollection, "CollapseSummaries", Settings.Default.CollapseSummaries);
             }
 
-            Settings.Default.Enabled = _settingsStore.GetBoolean(_settingsCollection, "Enabled", Settings.Default.Enabled);
+            Settings.Default.CollapseSummaries = _settingsStore.GetBoolean(_settingsCollection, "CollapseSummaries", Settings.Default.CollapseSummaries);
 
             await ToggleCommand.InitializeAsync(this);
         }

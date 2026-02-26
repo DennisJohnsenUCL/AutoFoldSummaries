@@ -31,7 +31,7 @@ namespace AutoFoldSummaries
 
         public void OnGotFocus(object sender, EventArgs e)
         {
-            if (!Settings.Default.Enabled) return;
+            if (!Settings.Default.CollapseSummaries) return;
             ScheduleCollapse();
         }
 
