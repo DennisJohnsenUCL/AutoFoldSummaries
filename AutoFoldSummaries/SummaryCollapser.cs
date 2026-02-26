@@ -100,10 +100,10 @@ namespace AutoFoldSummaries
             });
         }
 
-        private bool CollapseSummaries()
+        private void CollapseSummaries()
         {
             var outlining = _outliningService.GetOutliningManager(_view);
-            if (outlining == null) return false;
+            if (outlining == null) return;
 
             var snapshot = _view.TextSnapshot;
             var fullSpan = new SnapshotSpan(snapshot, 0, snapshot.Length);
@@ -125,8 +125,6 @@ namespace AutoFoldSummaries
             }
 
             if (foundAnySummary) Interlocked.Exchange(ref _collapsed, 1);
-
-            return foundAnySummary;
         }
     }
 }
