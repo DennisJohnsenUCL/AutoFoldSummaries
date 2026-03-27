@@ -33,12 +33,16 @@ namespace AutoFoldSummaries
             var collapsers = _collapsers.Where(c => c.IsEnabled());
             foreach (var region in outlining.GetAllRegions(fullSpan))
             {
-                var text = region.Extent.GetText(snapshot);
+                if (region.IsCollapsed) continue;
+
+                var regionSpan = region.Extent.GetSpan(snapshot);
+                var startLine = snapshot.GetLineFromPosition(regionSpan.Start);
+                var fullRegionSpan = new SnapshotSpan(startLine.Start, regionSpan.End);
 
                 bool collapsed = false;
                 foreach (var collapser in collapsers)
                 {
-                    collapsed = collapser.Collapse(text, region, outlining);
+                    collapsed = collapser.Collapse(fullRegionSpan, region, outlining);
                 }
                 if (collapsed) continue;
             }

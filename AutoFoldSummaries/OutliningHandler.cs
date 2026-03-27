@@ -32,7 +32,7 @@ namespace AutoFoldSummaries
                 return;
             textView.Properties.AddProperty(typeof(OutliningHandler), true);
 
-            var composite = new CompositeCollapser(new List<ICollapser>() { new SummaryCollapser() });
+            var composite = new CompositeCollapser(new List<ICollapser>() { new SummaryCollapser(), new UsingCollapser() });
             var scheduler = new CollapseScheduler(composite, OutliningService, textView);
 
             textView.GotAggregateFocus += scheduler.OnGotFocus;

@@ -7,6 +7,6 @@ namespace AutoFoldSummaries
     {
         bool IsEnabled();
         bool HasCollapsible(ITextSnapshot snapshot);
-        bool Collapse(string text, ICollapsible region, IOutliningManager outlining);
+        bool Collapse(SnapshotSpan span, ICollapsible region, IOutliningManager outlining);
     }
 }
