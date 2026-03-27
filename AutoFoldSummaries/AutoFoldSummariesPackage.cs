@@ -67,7 +67,7 @@ namespace AutoFoldSummaries
 
             Settings.Default.CollapseSummaries = _settingsStore.GetBoolean(_settingsCollection, "CollapseSummaries", Settings.Default.CollapseSummaries);
 
-            await ToggleCommand.InitializeAsync(this);
+            await SummaryCommand.InitializeAsync(this);
         }
 
         public void SaveSetting(string key, object value)

@@ -57,7 +57,7 @@
     </Compile>
     <Compile Include="CollapseScheduler.cs" />
     <Compile Include="SummaryCollapser.cs" />
-    <Compile Include="ToggleCommand.cs" />
+    <Compile Include="SummaryCommand.cs" />
     <Compile Include="UsingCollapser.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -98,7 +98,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Resources\ToggleCommand.png" />
+    <Content Include="Resources\SummaryCommand.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />

@@ -8,7 +8,7 @@ namespace AutoFoldSummaries
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class ToggleCommand
+    internal sealed class SummaryCommand
     {
         /// <summary>
         /// Command ID.
@@ -26,12 +26,12 @@ namespace AutoFoldSummaries
         private readonly AsyncPackage _package;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ToggleCommand"/> class.
+        /// Initializes a new instance of the <see cref="SummaryCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private ToggleCommand(AsyncPackage package, OleMenuCommandService commandService)
+        private SummaryCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
             _package = package ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
@@ -54,7 +54,7 @@ namespace AutoFoldSummaries
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static ToggleCommand Instance
+        public static SummaryCommand Instance
         {
             get;
             private set;
@@ -82,7 +82,7 @@ namespace AutoFoldSummaries
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new ToggleCommand(package, commandService);
+            Instance = new SummaryCommand(package, commandService);
         }
 
         /// <summary>

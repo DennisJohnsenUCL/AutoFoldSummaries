@@ -52,11 +52,11 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidAutoFoldSummariesPackageCmdSet" id="ToggleCommandId" priority="0x0100" type="Button">
+      <Button guid="guidAutoFoldSummariesPackageCmdSet" id="SummaryCommandId" priority="0x0100" type="Button">
         <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesMenuGroup" />
         <Strings>
           <ButtonText>AutoFoldSummaries</ButtonText>
-          <CanonicalName>AutoFoldSummaries.ToggleCommand</CanonicalName>
+          <CanonicalName>AutoFoldSummaries.SummaryCommand</CanonicalName>
         </Strings>
       </Button>
     </Buttons>
@@ -68,7 +68,7 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\ToggleCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
+      <Bitmap guid="guidImages" href="Resources\SummaryCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
     </Bitmaps>
   </Commands>
 
@@ -79,7 +79,7 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidAutoFoldSummariesPackageCmdSet" value="{16b6357c-358d-4642-bb15-c33e6318d821}">
       <IDSymbol name="AutoFoldSummariesMenuGroup" value="0x1020" />
-      <IDSymbol name="ToggleCommandId" value="0x0100" />
+      <IDSymbol name="SummaryCommandId" value="0x0100" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{e6bf2c4e-c082-493c-adc6-9f6544c8fdd8}" >
