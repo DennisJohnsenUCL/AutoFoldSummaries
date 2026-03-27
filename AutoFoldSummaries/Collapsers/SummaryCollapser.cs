@@ -1,42 +1,42 @@
 ﻿using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Outlining;
 
-namespace AutoFoldSummaries
+namespace AutoFoldSummaries.Collapsers
 {
-    internal class UsingCollapser : ICollapser
+    internal class SummaryCollapser : ICollapser
     {
-        private const string _using = "using ";
+        private const string _docComment = "///";
 
         public bool IsEnabled()
         {
-            return Settings.Default.CollapseUsings;
+            return Settings.Default.CollapseSummaries;
         }
 
         public bool HasCollapsible(ITextSnapshot snapshot)
         {
             foreach (var line in snapshot.Lines)
             {
-                if (IsUsingLine(line.Extent)) return true;
+                if (IsSummaryLine(line.Extent)) return true;
             }
             return false;
         }
 
         public bool Collapse(SnapshotSpan span, ICollapsible region, IOutliningManager outlining)
         {
-            if (!IsUsingLine(span)) return false;
+            if (!IsSummaryLine(span)) return false;
             return outlining.TryCollapse(region) != null;
         }
 
-        private bool IsUsingLine(SnapshotSpan span)
+        private bool IsSummaryLine(SnapshotSpan span)
         {
             var snapshot = span.Snapshot;
             int i = span.Start;
             int end = span.End;
             while (i < end && char.IsWhiteSpace(snapshot[i])) i++;
-            if (end - i < _using.Length) return false;
-            for (int j = 0; j < _using.Length; j++)
+            if (end - i < _docComment.Length) return false;
+            for (int j = 0; j < _docComment.Length; j++)
             {
-                if (snapshot[i + j] != _using[j]) return false;
+                if (snapshot[i + j] != _docComment[j]) return false;
             }
             return true;
         }

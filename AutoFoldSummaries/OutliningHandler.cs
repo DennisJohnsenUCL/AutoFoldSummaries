@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using AutoFoldSummaries.Collapsers;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text.Editor;

@@ -3,7 +3,7 @@ using System.ComponentModel.Design;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.Shell;
 
-namespace AutoFoldSummaries
+namespace AutoFoldSummaries.Commands
 {
     /// <summary>
     /// Command handler

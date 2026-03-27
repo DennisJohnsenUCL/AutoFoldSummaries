@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Outlining;
 
-namespace AutoFoldSummaries
+namespace AutoFoldSummaries.Collapsers
 {
     internal interface ICollapser
     {

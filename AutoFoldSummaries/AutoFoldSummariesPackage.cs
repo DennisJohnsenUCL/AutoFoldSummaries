@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoFoldSummaries.Commands;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
