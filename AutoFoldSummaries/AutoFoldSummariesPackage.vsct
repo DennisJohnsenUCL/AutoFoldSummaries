@@ -46,7 +46,10 @@
     </Menus>
 
     <Groups>
-      <Group guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesMenuGroup" priority="0x0100">
+      <Group guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesCollapserMenuGroup" priority="0x0100">
+        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesSubMenu" />
+      </Group>
+      <Group guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesGeneralMenuGroup" priority="0x0101">
         <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesSubMenu" />
       </Group>
     </Groups>
@@ -63,7 +66,7 @@
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidAutoFoldSummariesPackageCmdSet" id="SummaryCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesMenuGroup" />
+        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesCollapserMenuGroup" />
         <Strings>
           <ButtonText>Summaries</ButtonText>
           <CanonicalName>AutoFoldSummaries.SummaryCommand</CanonicalName>
@@ -72,7 +75,7 @@
       </Button>
 		
       <Button guid="guidAutoFoldSummariesPackageCmdSet" id="UsingCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesMenuGroup" />
+        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesCollapserMenuGroup" />
         <Strings>
           <ButtonText>Using blocks</ButtonText>
           <CanonicalName>AutoFoldSummaries.UsingCommand</CanonicalName>
@@ -81,7 +84,7 @@
       </Button>
 		
       <Button guid="guidAutoFoldSummariesPackageCmdSet" id="BlockCommentCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesMenuGroup" />
+        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesCollapserMenuGroup" />
         <Strings>
           <ButtonText>Block comments</ButtonText>
           <CanonicalName>AutoFoldSummaries.BlockCommentCommand</CanonicalName>
@@ -90,11 +93,20 @@
       </Button>
 		
       <Button guid="guidAutoFoldSummariesPackageCmdSet" id="CommentCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesMenuGroup" />
+        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesCollapserMenuGroup" />
         <Strings>
           <ButtonText>Comments</ButtonText>
           <CanonicalName>AutoFoldSummaries.CommentCommand</CanonicalName>
           <LocCanonicalName>AutoFoldSummaries.CommentCommand</LocCanonicalName>
+        </Strings>
+      </Button>
+		
+      <Button guid="guidAutoFoldSummariesPackageCmdSet" id="EnableAllCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesGeneralMenuGroup" />
+        <Strings>
+          <ButtonText>Enable all</ButtonText>
+          <CanonicalName>AutoFoldSummaries.EnableAllCommand</CanonicalName>
+          <LocCanonicalName>AutoFoldSummaries.EnableAllCommand</LocCanonicalName>
         </Strings>
       </Button>
     </Buttons>
@@ -116,11 +128,13 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidAutoFoldSummariesPackageCmdSet" value="{16b6357c-358d-4642-bb15-c33e6318d821}">
       <IDSymbol name="AutoFoldSummariesSubMenu" value="0x1030" />
-      <IDSymbol name="AutoFoldSummariesMenuGroup" value="0x1020" />
+      <IDSymbol name="AutoFoldSummariesCollapserMenuGroup" value="0x1020" />
+      <IDSymbol name="AutoFoldSummariesGeneralMenuGroup" value="0x1010" />
       <IDSymbol name="SummaryCommandId" value="0x0100" />
       <IDSymbol name="UsingCommandId" value="0x0101" />
       <IDSymbol name="BlockCommentCommandId" value="0x0102" />
       <IDSymbol name="CommentCommandId" value="0x0103" />
+      <IDSymbol name="EnableAllCommandId" value="0x0104" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

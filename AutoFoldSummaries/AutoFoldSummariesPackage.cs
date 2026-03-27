@@ -78,6 +78,7 @@ namespace AutoFoldSummaries
             await UsingCommand.InitializeAsync(this);
             await BlockCommentCommand.InitializeAsync(this);
             await CommentCommand.InitializeAsync(this);
+            await EnableAllCommand.InitializeAsync(this);
         }
 
         public void SaveSetting(string key, object value)
