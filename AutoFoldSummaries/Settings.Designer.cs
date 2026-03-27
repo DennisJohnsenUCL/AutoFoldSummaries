@@ -46,5 +46,17 @@ namespace AutoFoldSummaries {
                 this["CollapseUsings"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CollapseBlockComments {
+            get {
+                return ((bool)(this["CollapseBlockComments"]));
+            }
+            set {
+                this["CollapseBlockComments"] = value;
+            }
+        }
     }
 }

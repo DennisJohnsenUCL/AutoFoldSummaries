@@ -45,6 +45,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BlockCommentCollapser.cs" />
+    <Compile Include="BlockCommentCommand.cs" />
     <Compile Include="CompositeCollapser.cs" />
     <Compile Include="ICollapser.cs" />
     <Compile Include="OutliningHandler.cs" />
@@ -99,6 +101,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="Resources\BlockCommentCommand.png" />
     <Content Include="Resources\SummaryCommand.png" />
     <Content Include="Resources\UsingCommand.png" />
   </ItemGroup>

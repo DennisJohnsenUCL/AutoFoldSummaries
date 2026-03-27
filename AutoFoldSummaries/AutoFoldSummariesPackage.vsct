@@ -39,8 +39,8 @@
       <Menu guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesSubMenu" priority="0x0100" type="Menu">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_TOOLS_EXT_TOOLS" />
         <Strings>
-          <ButtonText>AutoFold</ButtonText>
-          <LocCanonicalName>AutoFold</LocCanonicalName>
+          <ButtonText>AutoFoldSummaries options</ButtonText>
+          <LocCanonicalName>AutoFoldSummaries options</LocCanonicalName>
         </Strings>
       </Menu>
     </Menus>
@@ -79,6 +79,15 @@
           <LocCanonicalName>AutoFoldSummaries.UsingCommand</LocCanonicalName>
         </Strings>
       </Button>
+		
+      <Button guid="guidAutoFoldSummariesPackageCmdSet" id="BlockCommentCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesMenuGroup" />
+        <Strings>
+          <ButtonText>Block comments</ButtonText>
+          <CanonicalName>AutoFoldSummaries.BlockCommentCommand</CanonicalName>
+          <LocCanonicalName>AutoFoldSummaries.BlockCommentCommand</LocCanonicalName>
+        </Strings>
+      </Button>
     </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
@@ -90,6 +99,7 @@
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
       <Bitmap guid="guidImages" href="Resources\SummaryCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
       <Bitmap guid="guidImages1" href="Resources\UsingCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+      <Bitmap guid="guidImages2" href="Resources\BlockCommentCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
     </Bitmaps>
   </Commands>
 
@@ -102,7 +112,8 @@
       <IDSymbol name="AutoFoldSummariesSubMenu" value="0x1030" />
       <IDSymbol name="AutoFoldSummariesMenuGroup" value="0x1020" />
       <IDSymbol name="SummaryCommandId" value="0x0100" />
-      <IDSymbol name="UsingCommandId" value="4129" />
+      <IDSymbol name="UsingCommandId" value="0x0101" />
+      <IDSymbol name="BlockCommentCommandId" value="0x0102" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{e6bf2c4e-c082-493c-adc6-9f6544c8fdd8}">
@@ -115,6 +126,15 @@
     </GuidSymbol>
   
     <GuidSymbol name="guidImages1" value="{376020f0-e66f-419b-ae99-20a00f46324c}">
+      <IDSymbol name="bmpPic1" value="1" />
+      <IDSymbol name="bmpPic2" value="2" />
+      <IDSymbol name="bmpPicSearch" value="3" />
+      <IDSymbol name="bmpPicX" value="4" />
+      <IDSymbol name="bmpPicArrows" value="5" />
+      <IDSymbol name="bmpPicStrikethrough" value="6" />
+    </GuidSymbol>
+  
+    <GuidSymbol value="{8a65fb31-d669-456a-8ae7-4ea348919df0}" name="guidImages2">
       <IDSymbol name="bmpPic1" value="1" />
       <IDSymbol name="bmpPic2" value="2" />
       <IDSymbol name="bmpPicSearch" value="3" />
