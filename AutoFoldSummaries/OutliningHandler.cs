@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text.Editor;
@@ -31,14 +32,15 @@ namespace AutoFoldSummaries
                 return;
             textView.Properties.AddProperty(typeof(OutliningHandler), true);
 
-            var collapser = new SummaryCollapser(OutliningService, textView);
+            var composite = new CompositeCollapser(new List<ICollapser>() { new SummaryCollapser() });
+            var scheduler = new CollapseScheduler(composite, OutliningService, textView);
 
-            textView.GotAggregateFocus += collapser.OnGotFocus;
+            textView.GotAggregateFocus += scheduler.OnGotFocus;
 
             textView.Closed += (s, e) =>
             {
-                collapser.Cancel();
-                textView.GotAggregateFocus -= collapser.OnGotFocus;
+                scheduler.Cancel();
+                textView.GotAggregateFocus -= scheduler.OnGotFocus;
             };
         }
     }
