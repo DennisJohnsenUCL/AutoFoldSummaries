@@ -1,0 +1,104 @@
+﻿using System;
+using System.ComponentModel.Design;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.Shell;
+
+namespace AutoFoldSummaries.Commands
+{
+    /// <summary>
+    /// Command handler
+    /// </summary>
+    internal sealed class CommentCommand
+    {
+        /// <summary>
+        /// Command ID.
+        /// </summary>
+        public const int CommandId = 0x0103;
+
+        /// <summary>
+        /// Command menu group (command set GUID).
+        /// </summary>
+        public static readonly Guid CommandSet = new Guid("16b6357c-358d-4642-bb15-c33e6318d821");
+
+        /// <summary>
+        /// VS Package that provides this command, not null.
+        /// </summary>
+        private readonly AsyncPackage _package;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentCommand"/> class.
+        /// Adds our command handlers for menu (commands must exist in the command table file)
+        /// </summary>
+        /// <param name="package">Owner package, not null.</param>
+        /// <param name="commandService">Command service to add command to, not null.</param>
+        private CommentCommand(AsyncPackage package, OleMenuCommandService commandService)
+        {
+            _package = package ?? throw new ArgumentNullException(nameof(package));
+            commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
+
+            var menuCommandID = new CommandID(CommandSet, CommandId);
+            var menuItem = new OleMenuCommand(Execute, menuCommandID);
+            menuItem.BeforeQueryStatus += OnBeforeQueryStatus;
+            commandService.AddCommand(menuItem);
+        }
+
+        private void OnBeforeQueryStatus(object sender, EventArgs e)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (sender is OleMenuCommand command)
+            {
+                command.Checked = Settings.Default.CollapseComments;
+            }
+        }
+
+        /// <summary>
+        /// Gets the instance of the command.
+        /// </summary>
+        public static CommentCommand Instance
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the service provider from the owner package.
+        /// </summary>
+        private IAsyncServiceProvider ServiceProvider
+        {
+            get
+            {
+                return _package;
+            }
+        }
+
+        /// <summary>
+        /// Initializes the singleton instance of the command.
+        /// </summary>
+        /// <param name="package">Owner package, not null.</param>
+        public static async Task InitializeAsync(AsyncPackage package)
+        {
+            // Switch to the main thread - the call to AddCommand in CommentCommand's constructor requires
+            // the UI thread.
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
+
+            OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
+            Instance = new CommentCommand(package, commandService);
+        }
+
+        /// <summary>
+        /// This function is the callback used to execute the command when the menu item is clicked.
+        /// See the constructor to see how the menu item is associated with this function using
+        /// OleMenuCommandService service and MenuCommand class.
+        /// </summary>
+        /// <param name="sender">Event sender.</param>
+        /// <param name="e">Event args.</param>
+        private void Execute(object sender, EventArgs e)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            Settings.Default.CollapseComments = !Settings.Default.CollapseComments;
+
+            ((AutoFoldSummariesPackage)_package).SaveSetting(nameof(Settings.Default.CollapseComments), Settings.Default.CollapseComments);
+        }
+    }
+}

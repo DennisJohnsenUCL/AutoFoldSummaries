@@ -37,7 +37,8 @@ namespace AutoFoldSummaries
                 new List<ICollapser>() {
                     new SummaryCollapser(),
                     new UsingCollapser(),
-                    new BlockCommentCollapser()
+                    new BlockCommentCollapser(),
+                    new CommentCollapser()
                 });
             var scheduler = new CollapseScheduler(composite, OutliningService, textView);
 

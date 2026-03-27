@@ -46,7 +46,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Collapsers\BlockCommentCollapser.cs" />
+    <Compile Include="Collapsers\CommentCollapser.cs" />
     <Compile Include="Commands\BlockCommentCommand.cs" />
+    <Compile Include="Commands\CommentCommand.cs" />
     <Compile Include="CompositeCollapser.cs" />
     <Compile Include="Collapsers\ICollapser.cs" />
     <Compile Include="OutliningHandler.cs" />
@@ -102,9 +104,7 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

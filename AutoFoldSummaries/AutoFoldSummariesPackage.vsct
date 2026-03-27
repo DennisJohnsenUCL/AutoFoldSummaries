@@ -88,6 +88,15 @@
           <LocCanonicalName>AutoFoldSummaries.BlockCommentCommand</LocCanonicalName>
         </Strings>
       </Button>
+		
+      <Button guid="guidAutoFoldSummariesPackageCmdSet" id="CommentCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesMenuGroup" />
+        <Strings>
+          <ButtonText>Comments</ButtonText>
+          <CanonicalName>AutoFoldSummaries.CommentCommand</CanonicalName>
+          <LocCanonicalName>AutoFoldSummaries.CommentCommand</LocCanonicalName>
+        </Strings>
+      </Button>
     </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
@@ -111,6 +120,7 @@
       <IDSymbol name="SummaryCommandId" value="0x0100" />
       <IDSymbol name="UsingCommandId" value="0x0101" />
       <IDSymbol name="BlockCommentCommandId" value="0x0102" />
+      <IDSymbol name="CommentCommandId" value="0x0103" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
