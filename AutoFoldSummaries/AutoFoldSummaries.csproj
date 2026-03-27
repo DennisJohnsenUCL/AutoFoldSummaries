@@ -49,7 +49,9 @@
     <Compile Include="Collapsers\CommentCollapser.cs" />
     <Compile Include="Commands\BlockCommentCommand.cs" />
     <Compile Include="Commands\CommentCommand.cs" />
+    <Compile Include="Commands\DisableAllCommand.cs" />
     <Compile Include="Commands\EnableAllCommand.cs" />
+    <Compile Include="Commands\RestoreDefaultsCommand.cs" />
     <Compile Include="CompositeCollapser.cs" />
     <Compile Include="Collapsers\ICollapser.cs" />
     <Compile Include="OutliningHandler.cs" />

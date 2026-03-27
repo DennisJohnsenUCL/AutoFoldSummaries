@@ -109,6 +109,24 @@
           <LocCanonicalName>AutoFoldSummaries.EnableAllCommand</LocCanonicalName>
         </Strings>
       </Button>
+
+      <Button guid="guidAutoFoldSummariesPackageCmdSet" id="DisableAllCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesGeneralMenuGroup" />
+        <Strings>
+          <ButtonText>Disable all</ButtonText>
+          <CanonicalName>AutoFoldSummaries.DisableAllCommand</CanonicalName>
+          <LocCanonicalName>AutoFoldSummaries.DisableAllCommand</LocCanonicalName>
+        </Strings>
+      </Button>
+
+      <Button guid="guidAutoFoldSummariesPackageCmdSet" id="RestoreDefaultsCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesGeneralMenuGroup" />
+        <Strings>
+          <ButtonText>Restore defaults</ButtonText>
+          <CanonicalName>AutoFoldSummaries.RestoreDefaultsCommand</CanonicalName>
+          <LocCanonicalName>AutoFoldSummaries.RestoreDefaultsCommand</LocCanonicalName>
+        </Strings>
+      </Button>
     </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
@@ -135,6 +153,8 @@
       <IDSymbol name="BlockCommentCommandId" value="0x0102" />
       <IDSymbol name="CommentCommandId" value="0x0103" />
       <IDSymbol name="EnableAllCommandId" value="0x0104" />
+      <IDSymbol name="DisableAllCommandId" value="0x0105" />
+      <IDSymbol name="RestoreDefaultsCommandId" value="0x0106" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>
