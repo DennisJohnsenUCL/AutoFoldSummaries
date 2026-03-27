@@ -35,9 +35,19 @@
          other menus or buttons (commands); from a visual point of view you can see the
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
+    <Menus>
+      <Menu guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesSubMenu" priority="0x0100" type="Menu">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_TOOLS_EXT_TOOLS" />
+        <Strings>
+          <ButtonText>AutoFold</ButtonText>
+          <LocCanonicalName>AutoFold</LocCanonicalName>
+        </Strings>
+      </Menu>
+    </Menus>
+
     <Groups>
-      <Group guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
+      <Group guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesMenuGroup" priority="0x0100">
+        <Parent guid="guidAutoFoldSummariesPackageCmdSet" id="AutoFoldSummariesSubMenu" />
       </Group>
     </Groups>
 
@@ -89,6 +99,7 @@
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidAutoFoldSummariesPackageCmdSet" value="{16b6357c-358d-4642-bb15-c33e6318d821}">
+      <IDSymbol name="AutoFoldSummariesSubMenu" value="0x1030" />
       <IDSymbol name="AutoFoldSummariesMenuGroup" value="0x1020" />
       <IDSymbol name="SummaryCommandId" value="0x0100" />
       <IDSymbol name="UsingCommandId" value="4129" />
