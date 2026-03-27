@@ -8,12 +8,12 @@ namespace AutoFoldSummaries
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class SummaryCommand
+    internal sealed class UsingCommand
     {
         /// <summary>
         /// Command ID.
         /// </summary>
-        public const int CommandId = 0x0100;
+        public const int CommandId = 4129;
 
         /// <summary>
         /// Command menu group (command set GUID).
@@ -26,12 +26,12 @@ namespace AutoFoldSummaries
         private readonly AsyncPackage _package;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SummaryCommand"/> class.
+        /// Initializes a new instance of the <see cref="UsingCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private SummaryCommand(AsyncPackage package, OleMenuCommandService commandService)
+        private UsingCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
             _package = package ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
@@ -47,14 +47,14 @@ namespace AutoFoldSummaries
             ThreadHelper.ThrowIfNotOnUIThread();
             if (sender is OleMenuCommand command)
             {
-                command.Checked = Settings.Default.CollapseSummaries;
+                command.Checked = Settings.Default.CollapseUsings;
             }
         }
 
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static SummaryCommand Instance
+        public static UsingCommand Instance
         {
             get;
             private set;
@@ -82,7 +82,7 @@ namespace AutoFoldSummaries
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new SummaryCommand(package, commandService);
+            Instance = new UsingCommand(package, commandService);
         }
 
         /// <summary>
@@ -96,9 +96,9 @@ namespace AutoFoldSummaries
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            Settings.Default.CollapseSummaries = !Settings.Default.CollapseSummaries;
+            Settings.Default.CollapseUsings = !Settings.Default.CollapseUsings;
 
-            ((AutoFoldSummariesPackage)_package).SaveSetting(nameof(Settings.Default.CollapseSummaries), Settings.Default.CollapseSummaries);
+            ((AutoFoldSummariesPackage)_package).SaveSetting(nameof(Settings.Default.CollapseUsings), Settings.Default.CollapseUsings);
         }
     }
 }

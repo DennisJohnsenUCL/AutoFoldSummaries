@@ -62,12 +62,15 @@ namespace AutoFoldSummaries
             if (!_settingsStore.CollectionExists(_settingsCollection))
             {
                 _settingsStore.CreateCollection(_settingsCollection);
-                _settingsStore.SetBoolean(_settingsCollection, "CollapseSummaries", Settings.Default.CollapseSummaries);
+                _settingsStore.SetBoolean(_settingsCollection, nameof(Settings.Default.CollapseSummaries), Settings.Default.CollapseSummaries);
+                _settingsStore.SetBoolean(_settingsCollection, nameof(Settings.Default.CollapseUsings), Settings.Default.CollapseUsings);
             }
 
-            Settings.Default.CollapseSummaries = _settingsStore.GetBoolean(_settingsCollection, "CollapseSummaries", Settings.Default.CollapseSummaries);
+            Settings.Default.CollapseSummaries = _settingsStore.GetBoolean(_settingsCollection, nameof(Settings.Default.CollapseSummaries), Settings.Default.CollapseSummaries);
+            Settings.Default.CollapseUsings = _settingsStore.GetBoolean(_settingsCollection, nameof(Settings.Default.CollapseUsings), Settings.Default.CollapseUsings);
 
             await SummaryCommand.InitializeAsync(this);
+            await UsingCommand.InitializeAsync(this);
         }
 
         public void SaveSetting(string key, object value)
