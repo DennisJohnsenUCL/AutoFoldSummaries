@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="AutoFoldSummaries.5cf8894c-803a-4c21-b38e-96e2197aefb7" Version="1.0" Language="en-US" Publisher="DennisJohnsen" />
+        <Identity Id="AutoFoldSummaries.5cf8894c-803a-4c21-b38e-96e2197aefb7" Version="1.1.0" Language="en-US" Publisher="DennisJohnsen" />
         <DisplayName>AutoFoldSummaries</DisplayName>
         <Description xml:space="preserve">Automatically closes /// XML documentation whenever opening a C# file or changing tabs, saving you the hassle of closing them manually.</Description>
         <License>LICENSE.txt</License>
