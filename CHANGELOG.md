@@ -1,3 +1,7 @@
+#### 1.1.2
+
+- Fixed using statements being collapsed in addtion to blocks of using namespace references
+
 #### 1.1.1
 
 - Added release notes to manifest file
