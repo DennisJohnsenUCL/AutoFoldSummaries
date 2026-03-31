@@ -14,16 +14,27 @@ namespace AutoFoldSummaries.Collapsers
 
         public bool HasCollapsible(ITextSnapshot snapshot)
         {
+            int usingBlock = 0;
             foreach (var line in snapshot.Lines)
             {
-                if (IsUsingLine(line.Extent)) return true;
+                if (IsUsingLine(line.Extent)) usingBlock++;
+                if (usingBlock >= 2) return true;
             }
             return false;
         }
 
         public bool Collapse(SnapshotSpan span, ICollapsible region, IOutliningManager outlining)
         {
-            if (!IsUsingLine(span)) return false;
+            var snapshot = span.Snapshot;
+            var startLine = snapshot.GetLineFromPosition(span.Start);
+            var endLine = snapshot.GetLineFromPosition(span.End);
+
+            for (int i = startLine.LineNumber; i <= endLine.LineNumber; i++)
+            {
+                var line = snapshot.GetLineFromLineNumber(i);
+                if (!IsUsingLine(line.Extent) && !IsBlank(line.Extent)) return false;
+            }
+
             return outlining.TryCollapse(region) != null;
         }
 
@@ -37,6 +48,16 @@ namespace AutoFoldSummaries.Collapsers
             for (int j = 0; j < _using.Length; j++)
             {
                 if (snapshot[i + j] != _using[j]) return false;
+            }
+            return true;
+        }
+
+        private bool IsBlank(SnapshotSpan span)
+        {
+            var snapshot = span.Snapshot;
+            for (int i = span.Start; i < span.End; i++)
+            {
+                if (!char.IsWhiteSpace(snapshot[i])) return false;
             }
             return true;
         }
